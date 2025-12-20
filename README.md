@@ -94,6 +94,12 @@ The frontend will usually run at `http://localhost:5173`.
 4.  **Upload Documents**: Use the upload feature to ingest PDFs for the RAG system to reference.
 5.  **Interact**: Ask questions. The Supervisor agent will delegate tasks to the Researcher (fetching info) or Writer (drafting responses) as needed.
 
+
 ## 🤝 Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
+
+## ✍️ Author
+
+**Arun Hari Kamble**  
+Technical Manager | Full Stack (React.js + Python) | AI & Emerging Tech Enthusiast
