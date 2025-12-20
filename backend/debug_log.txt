@@ -1,0 +1,26 @@
+Supervisor processing messages: 2
+Supervisor LLM failed: llama runner process has terminated: exit status 2 (status code: 500)
+Supervisor processing messages: 3
+Supervisor LLM failed: llama runner process has terminated: exit status 2 (status code: 500)
+Supervisor processing messages: 4
+Supervisor LLM failed: llama runner process has terminated: exit status 2 (status code: 500)
+Supervisor processing messages: 5
+Supervisor LLM failed: llama runner process has terminated: exit status 2 (status code: 500)
+Supervisor processing messages: 6
+Supervisor LLM failed: llama runner process has terminated: exit status 2 (status code: 500)
+Supervisor processing messages: 7
+Supervisor LLM failed: llama runner process has terminated: exit status 2 (status code: 500)
+Supervisor processing messages: 8
+Supervisor LLM failed: llama runner process has terminated: exit status 2 (status code: 500)
+Supervisor processing messages: 9
+Supervisor LLM failed: llama runner process has terminated: exit status 2 (status code: 500)
+Supervisor processing messages: 10
+Supervisor LLM failed: llama runner process has terminated: exit status 2 (status code: 500)
+Supervisor processing messages: 11
+Supervisor LLM failed: llama runner process has terminated: exit status 2 (status code: 500)
+Supervisor processing messages: 12
+Supervisor LLM failed: llama runner process has terminated: exit status 2 (status code: 500)
+Supervisor processing messages: 13
+Supervisor LLM failed: llama runner process has terminated: exit status 2 (status code: 500)
+Supervisor processing messages: 14
+Supervisor LLM failed: llama runner process has terminated: exit status 2 (status code: 500)
