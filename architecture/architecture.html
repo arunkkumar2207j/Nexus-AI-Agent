@@ -1,0 +1,644 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nexus AI Agent - Architecture Diagram</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(
+          135deg,
+          #0f0f1a 0%,
+          #1a1a2e 50%,
+          #16213e 100%
+        );
+        color: #ffffff;
+        min-height: 100vh;
+        padding: 40px 20px;
+      }
+
+      .container {
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      h1 {
+        text-align: center;
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+        background: linear-gradient(90deg, #00d4ff, #7c3aed);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .subtitle {
+        text-align: center;
+        color: #a0a0a0;
+        margin-bottom: 40px;
+        font-size: 1.1rem;
+      }
+
+      .architecture-grid {
+        display: grid;
+        grid-template-columns: 1fr 2fr 1fr;
+        gap: 30px;
+        margin-bottom: 40px;
+      }
+
+      .layer {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        padding: 25px;
+        backdrop-filter: blur(10px);
+        transition:
+          transform 0.3s ease,
+          box-shadow 0.3s ease;
+      }
+
+      .layer:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(0, 212, 255, 0.2);
+      }
+
+      .layer-title {
+        font-size: 1.3rem;
+        font-weight: 600;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid rgba(0, 212, 255, 0.3);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .layer-title .icon {
+        font-size: 1.5rem;
+      }
+
+      .component {
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 12px;
+        padding: 15px;
+        margin-bottom: 15px;
+        transition: all 0.3s ease;
+      }
+
+      .component:hover {
+        background: rgba(0, 212, 255, 0.1);
+        border-color: rgba(0, 212, 255, 0.4);
+      }
+
+      .component-name {
+        font-weight: 600;
+        color: #00d4ff;
+        margin-bottom: 8px;
+        font-size: 1rem;
+      }
+
+      .component-desc {
+        color: #b0b0b0;
+        font-size: 0.9rem;
+        line-height: 1.5;
+      }
+
+      .tech-stack {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 10px;
+      }
+
+      .tech-badge {
+        background: linear-gradient(135deg, #7c3aed, #00d4ff);
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 500;
+      }
+
+      .flow-section {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        padding: 30px;
+        margin-bottom: 40px;
+      }
+
+      .flow-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 25px;
+        text-align: center;
+        color: #00d4ff;
+      }
+
+      .flow-diagram {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 20px;
+      }
+
+      .flow-node {
+        background: linear-gradient(135deg, #1a1a2e, #16213e);
+        border: 2px solid rgba(0, 212, 255, 0.3);
+        border-radius: 15px;
+        padding: 20px 30px;
+        text-align: center;
+        min-width: 150px;
+        transition: all 0.3s ease;
+      }
+
+      .flow-node:hover {
+        border-color: #00d4ff;
+        box-shadow: 0 0 30px rgba(0, 212, 255, 0.4);
+        transform: scale(1.05);
+      }
+
+      .flow-node.active {
+        background: linear-gradient(135deg, #00d4ff, #7c3aed);
+        border-color: #ffffff;
+      }
+
+      .flow-node-title {
+        font-weight: 600;
+        font-size: 1.1rem;
+        margin-bottom: 5px;
+      }
+
+      .flow-node-desc {
+        font-size: 0.85rem;
+        color: #a0a0a0;
+      }
+
+      .flow-arrow {
+        font-size: 2rem;
+        color: #00d4ff;
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.5;
+        }
+      }
+
+      .data-flow {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        padding: 30px;
+        margin-bottom: 40px;
+      }
+
+      .data-flow-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 25px;
+        text-align: center;
+        color: #7c3aed;
+      }
+
+      .data-steps {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+      }
+
+      .data-step {
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 12px;
+        padding: 20px;
+        position: relative;
+      }
+
+      .data-step::before {
+        content: attr(data-step);
+        position: absolute;
+        top: -15px;
+        left: 20px;
+        background: linear-gradient(135deg, #7c3aed, #00d4ff);
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        font-size: 0.9rem;
+      }
+
+      .data-step-title {
+        font-weight: 600;
+        color: #00d4ff;
+        margin-bottom: 10px;
+        margin-top: 10px;
+      }
+
+      .data-step-desc {
+        color: #b0b0b0;
+        font-size: 0.9rem;
+        line-height: 1.6;
+      }
+
+      .legend {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        padding: 25px;
+      }
+
+      .legend-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 20px;
+        color: #00d4ff;
+      }
+
+      .legend-items {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+      }
+
+      .legend-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .legend-color {
+        width: 20px;
+        height: 20px;
+        border-radius: 4px;
+      }
+
+      .legend-color.frontend {
+        background: linear-gradient(135deg, #61dafb, #00d4ff);
+      }
+
+      .legend-color.backend {
+        background: linear-gradient(135deg, #ffd43b, #ff6b6b);
+      }
+
+      .legend-color.ai {
+        background: linear-gradient(135deg, #7c3aed, #a855f7);
+      }
+
+      .legend-color.data {
+        background: linear-gradient(135deg, #10b981, #34d399);
+      }
+
+      .legend-text {
+        color: #b0b0b0;
+        font-size: 0.9rem;
+      }
+
+      @media (max-width: 1024px) {
+        .architecture-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 768px) {
+        h1 {
+          font-size: 1.8rem;
+        }
+
+        .flow-diagram {
+          flex-direction: column;
+        }
+
+        .flow-arrow {
+          transform: rotate(90deg);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>🏗️ Nexus AI Agent Architecture</h1>
+      <p class="subtitle">
+        Multi-Agent Orchestration Platform with RAG Capabilities
+      </p>
+
+      <!-- Main Architecture Grid -->
+      <div class="architecture-grid">
+        <!-- Frontend Layer -->
+        <div class="layer">
+          <div class="layer-title">
+            <span class="icon">🎨</span>
+            Frontend Layer
+          </div>
+
+          <div class="component">
+            <div class="component-name">React Application</div>
+            <div class="component-desc">
+              Modern, responsive UI built with React 19 and TypeScript. Features
+              dark mode, real-time chat interface, and document upload
+              capabilities.
+            </div>
+            <div class="tech-stack">
+              <span class="tech-badge">React 19</span>
+              <span class="tech-badge">TypeScript</span>
+              <span class="tech-badge">Vite</span>
+            </div>
+          </div>
+
+          <div class="component">
+            <div class="component-name">Chat Interface</div>
+            <div class="component-desc">
+              Real-time messaging component with message history, loading
+              states, and agent status visualization.
+            </div>
+          </div>
+
+          <div class="component">
+            <div class="component-name">Document Upload</div>
+            <div class="component-desc">
+              Drag-and-drop PDF upload interface with progress indicators and
+              success/error feedback.
+            </div>
+          </div>
+
+          <div class="component">
+            <div class="component-name">Agent Visualizer</div>
+            <div class="component-desc">
+              Live visualization of agent states and workflow progress during
+              query processing.
+            </div>
+          </div>
+
+          <div class="tech-stack">
+            <span class="tech-badge">TailwindCSS</span>
+            <span class="tech-badge">Framer Motion</span>
+            <span class="tech-badge">Lucide Icons</span>
+          </div>
+        </div>
+
+        <!-- Backend Layer -->
+        <div class="layer">
+          <div class="layer-title">
+            <span class="icon">⚙️</span>
+            Backend Layer
+          </div>
+
+          <div class="component">
+            <div class="component-name">FastAPI Server</div>
+            <div class="component-desc">
+              High-performance Python web framework providing RESTful API
+              endpoints for chat and document upload operations. Handles CORS,
+              request validation, and error handling.
+            </div>
+            <div class="tech-stack">
+              <span class="tech-badge">FastAPI</span>
+              <span class="tech-badge">Uvicorn</span>
+              <span class="tech-badge">Pydantic</span>
+            </div>
+          </div>
+
+          <div class="component">
+            <div class="component-name">LangGraph Agent System</div>
+            <div class="component-desc">
+              Multi-agent orchestration using LangGraph. Implements a stateful
+              graph with conditional routing between specialized agents.
+            </div>
+            <div class="tech-stack">
+              <span class="tech-badge">LangGraph</span>
+              <span class="tech-badge">LangChain</span>
+            </div>
+          </div>
+
+          <div class="component">
+            <div class="component-name">Supervisor Agent</div>
+            <div class="component-desc">
+              Central coordinator that analyzes user requests and routes tasks
+              to appropriate specialized agents (Researcher or Writer).
+            </div>
+          </div>
+
+          <div class="component">
+            <div class="component-name">Researcher Agent</div>
+            <div class="component-desc">
+              Specialized agent that performs RAG operations, querying the
+              vector store to retrieve relevant context from uploaded documents.
+            </div>
+          </div>
+
+          <div class="component">
+            <div class="component-name">Writer Agent</div>
+            <div class="component-desc">
+              Generates comprehensive responses using the LLM, incorporating
+              context provided by the Researcher agent.
+            </div>
+          </div>
+
+          <div class="component">
+            <div class="component-name">Vector Store Service</div>
+            <div class="component-desc">
+              Manages document ingestion, text splitting, embedding generation,
+              and semantic search using ChromaDB.
+            </div>
+            <div class="tech-stack">
+              <span class="tech-badge">ChromaDB</span>
+              <span class="tech-badge">HuggingFace</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- AI & Data Layer -->
+        <div class="layer">
+          <div class="layer-title">
+            <span class="icon">🧠</span>
+            AI & Data Layer
+          </div>
+
+          <div class="component">
+            <div class="component-name">Ollama LLM</div>
+            <div class="component-desc">
+              Local large language model (Llama 3) for agent reasoning and
+              response generation. Provides free, private AI capabilities.
+            </div>
+            <div class="tech-stack">
+              <span class="tech-badge">Ollama</span>
+              <span class="tech-badge">Llama 3</span>
+            </div>
+          </div>
+
+          <div class="component">
+            <div class="component-name">Embedding Model</div>
+            <div class="component-desc">
+              HuggingFace all-MiniLM-L6-v2 model for generating semantic
+              embeddings of document chunks and queries.
+            </div>
+            <div class="tech-stack">
+              <span class="tech-badge">all-MiniLM-L6-v2</span>
+            </div>
+          </div>
+
+          <div class="component">
+            <div class="component-name">ChromaDB</div>
+            <div class="component-desc">
+              Persistent vector database storing document embeddings and
+              enabling fast semantic similarity search.
+            </div>
+          </div>
+
+          <div class="component">
+            <div class="component-name">PDF Documents</div>
+            <div class="component-desc">
+              Source documents uploaded by users, processed and chunked for
+              retrieval-augmented generation.
+            </div>
+            <div class="tech-stack">
+              <span class="tech-badge">PyPDF</span>
+            </div>
+          </div>
+
+          <div class="component">
+            <div class="component-name">Text Splitter</div>
+            <div class="component-desc">
+              RecursiveCharacterTextSplitter that breaks documents into
+              manageable chunks (1000 chars with 200 char overlap).
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Agent Workflow Flow -->
+      <div class="flow-section">
+        <div class="flow-title">🔄 Agent Workflow Flow</div>
+        <div class="flow-diagram">
+          <div class="flow-node">
+            <div class="flow-node-title">👤 User Input</div>
+            <div class="flow-node-desc">Query submitted via chat</div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node active">
+            <div class="flow-node-title">🎯 Supervisor</div>
+            <div class="flow-node-desc">Analyzes & routes task</div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node">
+            <div class="flow-node-title">🔍 Researcher</div>
+            <div class="flow-node-desc">RAG document search</div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node">
+            <div class="flow-node-title">✍️ Writer</div>
+            <div class="flow-node-desc">Generates response</div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node">
+            <div class="flow-node-title">📤 Response</div>
+            <div class="flow-node-desc">Returns to user</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Data Flow Section -->
+      <div class="data-flow">
+        <div class="data-flow-title">📊 Data Flow Process</div>
+        <div class="data-steps">
+          <div class="data-step" data-step="1">
+            <div class="data-step-title">Document Upload</div>
+            <div class="data-step-desc">
+              User uploads PDF documents through the frontend interface. Files
+              are sent to the backend via POST request.
+            </div>
+          </div>
+          <div class="data-step" data-step="2">
+            <div class="data-step-title">Text Extraction</div>
+            <div class="data-step-desc">
+              PyPDFLoader extracts text content from the uploaded PDF documents,
+              preparing it for processing.
+            </div>
+          </div>
+          <div class="data-step" data-step="3">
+            <div class="data-step-title">Text Splitting</div>
+            <div class="data-step-desc">
+              RecursiveCharacterTextSplitter breaks documents into chunks (1000
+              characters with 200 character overlap).
+            </div>
+          </div>
+          <div class="data-step" data-step="4">
+            <div class="data-step-title">Embedding Generation</div>
+            <div class="data-step-desc">
+              HuggingFace all-MiniLM-L6-v2 model generates semantic embeddings
+              for each text chunk.
+            </div>
+          </div>
+          <div class="data-step" data-step="5">
+            <div class="data-step-title">Vector Storage</div>
+            <div class="data-step-desc">
+              Embeddings are stored in ChromaDB for persistent storage and fast
+              similarity search.
+            </div>
+          </div>
+          <div class="data-step" data-step="6">
+            <div class="data-step-title">Query Processing</div>
+            <div class="data-step-desc">
+              When user asks a question, the Researcher agent queries ChromaDB
+              to find relevant document chunks.
+            </div>
+          </div>
+          <div class="data-step" data-step="7">
+            <div class="data-step-title">Context Retrieval</div>
+            <div class="data-step-desc">
+              Most relevant document chunks are retrieved and provided as
+              context to the Writer agent.
+            </div>
+          </div>
+          <div class="data-step" data-step="8">
+            <div class="data-step-title">Response Generation</div>
+            <div class="data-step-desc">
+              Writer agent uses Llama 3 via Ollama to generate a comprehensive
+              response based on the retrieved context.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Legend -->
+      <div class="legend">
+        <div class="legend-title">📋 Component Legend</div>
+        <div class="legend-items">
+          <div class="legend-item">
+            <div class="legend-color frontend"></div>
+            <div class="legend-text">
+              Frontend Components (React/TypeScript)
+            </div>
+          </div>
+          <div class="legend-item">
+            <div class="legend-color backend"></div>
+            <div class="legend-text">Backend Services (Python/FastAPI)</div>
+          </div>
+          <div class="legend-item">
+            <div class="legend-color ai"></div>
+            <div class="legend-text">AI/ML Components (LangGraph/Ollama)</div>
+          </div>
+          <div class="legend-item">
+            <div class="legend-color data"></div>
+            <div class="legend-text">Data Storage (ChromaDB)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus AI Agent - Beginner's Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #16213e 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            padding: 40px 20px;
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #00d4ff, #7c3aed);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #a0a0a0;
+            margin-bottom: 40px;
+            font-size: 1.1rem;
+        }
+
+        .toc {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 40px;
+        }
+
+        .toc-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #00d4ff;
+        }
+
+        .toc-list {
+            list-style: none;
+        }
+
+        .toc-list li {
+            margin-bottom: 10px;
+        }
+
+        .toc-list a {
+            color: #b0b0b0;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .toc-list a:hover {
+            color: #00d4ff;
+        }
+
+        .toc-list a::before {
+            content: "→";
+            color: #7c3aed;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #00d4ff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title .icon {
+            font-size: 2rem;
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            color: #7c3aed;
+            margin: 25px 0 15px 0;
+        }
+
+        p {
+            color: #d0d0d0;
+            margin-bottom: 15px;
+        }
+
+        .info-box {
+            background: rgba(0, 212, 255, 0.1);
+            border-left: 4px solid #00d4ff;
+            border-radius: 8px;
+            padding: 15px 20px;
+            margin: 20px 0;
+        }
+
+        .info-box-title {
+            font-weight: 600;
+            color: #00d4ff;
+            margin-bottom: 8px;
+        }
+
+        .warning-box {
+            background: rgba(255, 193, 7, 0.1);
+            border-left: 4px solid #ffc107;
+            border-radius: 8px;
+            padding: 15px 20px;
+            margin: 20px 0;
+        }
+
+        .warning-box-title {
+            font-weight: 600;
+            color: #ffc107;
+            margin-bottom: 8px;
+        }
+
+        .success-box {
+            background: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid #10b981;
+            border-radius: 8px;
+            padding: 15px 20px;
+            margin: 20px 0;
+        }
+
+        .success-box-title {
+            font-weight: 600;
+            color: #10b981;
+            margin-bottom: 8px;
+        }
+
+        code {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: #00d4ff;
+        }
+
+        pre {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            color: #e0e0e0;
+        }
+
+        .step {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            position: relative;
+            padding-left: 70px;
+        }
+
+        .step-number {
+            position: absolute;
+            left: 20px;
+            top: 20px;
+            background: linear-gradient(135deg, #7c3aed, #00d4ff);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+
+        .step-title {
+            font-weight: 600;
+            color: #00d4ff;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .step-desc {
+            color: #b0b0b0;
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .tech-card {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .tech-card:hover {
+            background: rgba(0, 212, 255, 0.1);
+            border-color: rgba(0, 212, 255, 0.4);
+            transform: translateY(-3px);
+        }
+
+        .tech-card-title {
+            font-weight: 600;
+            color: #00d4ff;
+            margin-bottom: 10px;
+        }
+
+        .tech-card-desc {
+            color: #b0b0b0;
+            font-size: 0.9rem;
+        }
+
+        .folder-structure {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            font-family: 'Courier New', monospace;
+            margin: 15px 0;
+        }
+
+        .folder-item {
+            margin: 5px 0;
+            color: #d0d0d0;
+        }
+
+        .folder-item.folder {
+            color: #00d4ff;
+        }
+
+        .folder-item.file {
+            color: #a0a0a0;
+        }
+
+        .indent-1 { margin-left: 20px; }
+        .indent-2 { margin-left: 40px; }
+        .indent-3 { margin-left: 60px; }
+
+        .checklist {
+            list-style: none;
+            margin: 15px 0;
+        }
+
+        .checklist li {
+            padding: 10px 0;
+            padding-left: 35px;
+            position: relative;
+            color: #d0d0d0;
+        }
+
+        .checklist li::before {
+            content: "☐";
+            position: absolute;
+            left: 0;
+            color: #7c3aed;
+            font-size: 1.2rem;
+        }
+
+        .deployment-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .deployment-card {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            padding: 25px;
+        }
+
+        .deployment-card-title {
+            font-weight: 600;
+            color: #7c3aed;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .faq {
+            margin: 20px 0;
+        }
+
+        .faq-item {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+
+        .faq-question {
+            font-weight: 600;
+            color: #00d4ff;
+            margin-bottom: 10px;
+        }
+
+        .faq-answer {
+            color: #b0b0b0;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .section-title {
+                font-size: 1.4rem;
+            }
+
+            .step {
+                padding-left: 20px;
+                padding-top: 70px;
+            }
+
+            .step-number {
+                left: 20px;
+                top: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📚 Nexus AI Agent - Beginner's Guide</h1>
+        <p class="subtitle">Everything you need to know to get started with Nexus AI Agent</p>
+
+        <!-- Table of Contents -->
+        <div class="toc">
+            <div class="toc-title">📋 Table of Contents</div>
+            <ul class="toc-list">
+                <li><a href="#what-is-nexus">What is Nexus AI Agent?</a></li>
+                <li><a href="#key-features">Key Features</a></li>
+                <li><a href="#tech-stack">Technology Stack</a></li>
+                <li><a href="#project-structure">Project Structure</a></li>
+                <li><a href="#prerequisites">Prerequisites</a></li>
+                <li><a href="#installation">Installation Guide</a></li>
+                <li><a href="#running-locally">Running Locally</a></li>
+                <li><a href="#using-the-app">Using the Application</a></li>
+                <li><a href="#deployment">Deployment Guide</a></li>
+                <li><a href="#troubleshooting">Troubleshooting</a></li>
+                <li><a href="#faq">FAQ</a></li>
+            </ul>
+        </div>
+
+        <!-- What is Nexus AI Agent? -->
+        <div class="section" id="what-is-nexus">
+            <div class="section-title">
+                <span class="icon">🤖</span>
+                What is Nexus AI Agent?
+            </div>
+            <p>
+                <strong>Nexus AI Agent</strong> is a sophisticated multi-agent orchestration platform designed to handle complex workflows and retrieval-augmented generation (RAG) tasks. Think of it as having a team of AI specialists working together to answer your questions.
+            </p>
+            <p>
+                The system uses three specialized AI agents:
+            </p>
+            <ul style="list-style: none; margin: 20px 0;">
+                <li style="padding: 10px 0; color: #d0d0d0;">
+                    <strong style="color: #00d4ff;">🎯 Supervisor:</strong> The coordinator that decides which agent should handle your request
+                </li>
+                <li style="padding: 10px 0; color: #d0d0d0;">
+                    <strong style="color: #00d4ff;">🔍 Researcher:</strong> Searches through your uploaded documents to find relevant information
+                </li>
+                <li style="padding: 10px 0; color: #d0d0d0;">
+                    <strong style="color: #00d4ff;">✍️ Writer:</strong> Generates comprehensive, well-written responses based on the research
+                </li>
+            </ul>
+            <div class="info-box">
+                <div class="info-box-title">💡 Why is this useful?</div>
+                <p style="margin: 0;">
+                    Instead of manually searching through documents and writing summaries, you can ask questions in natural language and get accurate, context-aware answers instantly. The AI agents work together to provide comprehensive responses based on your actual documents.
+                </p>
+            </div>
+        </div>
+
+        <!-- Key Features -->
+        <div class="section" id="key-features">
+            <div class="section-title">
+                <span class="icon">✨</span>
+                Key Features
+            </div>
+            <div class="tech-grid">
+                <div class="tech-card">
+                    <div class="tech-card-title">🤖 Multi-Agent Orchestration</div>
+                    <div class="tech-card-desc">
+                        Three specialized AI agents work together: Supervisor coordinates, Researcher finds information, Writer creates responses.
+                    </div>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-card-title">📄 Document Upload</div>
+                    <div class="tech-card-desc">
+                        Upload PDF documents and the system will automatically process, index, and make them searchable.
+                    </div>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-card-title">🔍 Semantic Search</div>
+                    <div class="tech-card-desc">
+                        Uses advanced embeddings to understand the meaning of your questions and find relevant information.
+                    </div>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-card-title">💬 Interactive Chat</div>
+                    <div class="tech-card-desc">
+                        Beautiful, modern chat interface with real-time responses and agent status visualization.
+                    </div>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-card-title">🏠 Local AI</div>
+                    <div class="tech-card-desc">
+                        Uses Ollama with Llama 3 for completely local, private AI processing - no data leaves your machine.
+                    </div>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-card-title">🎨 Modern UI</div>
+                    <div class="tech-card-desc">
+                        Dark mode interface built with React, TailwindCSS, and smooth animations.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Technology Stack -->
+        <div class="section" id="tech-stack">
+            <div class="section-title">
+                <span class="icon">🛠️</span>
+                Technology Stack
+            </div>
+            <h3>Backend Technologies</h3>
+            <div class="tech-grid">
+                <div class="tech-card">
+                    <div class="tech-card-title">Python 3.10+</div>
+                    <div class="tech-card-desc">
+                        The programming language used for the backend. Known for its simplicity and extensive AI/ML libraries.
+                    </div>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-card-title">FastAPI</div>
+                    <div class="tech-card-desc">
+                        A modern, fast web framework for building APIs. Provides automatic documentation and high performance.
+                    </div>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-card-title">LangGraph</div>
+                    <div class="tech-card-desc">
+                        Framework for building stateful, multi-agent applications. Manages the workflow between agents.
+                    </div>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-card-title">LangChain</div>
+                    <div class="tech-card-desc">
+                        Framework for developing applications powered by language models. Provides tools for RAG and document processing.
+                    </div>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-card-title">ChromaDB</div>
+                    <div class="tech-card-desc">
+                        Vector database for storing and searching document embeddings. Enables fast semantic search.
+                    </div>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-card-title">Ollama</div>
+                    <div class="tech-card-desc">
+                        Runs large language models locally. Uses Llama 3 for AI reasoning and response generation.
+                    </div>
+                </div>
+            </div>
+
+            <h3>Frontend Technologies</h3>
+            <div class="tech-grid">
+                <div class="tech-card">
+                    <div class="tech-card-title">React 19</div>
+                    <div class="tech-card-desc">
+                        JavaScript library for building user interfaces. Provides component-based architecture.
+                    </div>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-card-title">TypeScript</div>
+                    <div class="tech-card-desc">
+                        Adds type safety to JavaScript. Helps catch errors early and improves code quality.
+                    </div>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-card-title">Vite</div>
+                    <div class="tech-card-desc">
+                        Next-generation frontend tooling. Provides fast development server and optimized builds.
+                    </div>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-card-title">TailwindCSS</div>
+                    <div class="tech-card-desc">
+                        Utility-first CSS framework. Makes it easy to create beautiful, responsive designs.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Project Structure -->
+        <div class="section" id="project-structure">
+            <div class="section-title">
+                <span class="icon">📁</span>
+                Project Structure
+            </div>
+            <p>
+                Understanding the project structure will help you navigate and modify the code:
+            </p>
+            <div class="folder-structure">
+                <div class="folder-item folder">Nexus-AI-Agent/</div>
+                <div class="folder-item file indent-1">├── README.md</div>
+                <div class="folder-item folder indent-1">├── backend/</div>
+                <div class="folder-item file indent-2">│   ├── main.py              # FastAPI server & API endpoints</div>
+                <div class="folder-item file indent-2">│   ├── requirements.txt     # Python dependencies</div>
+                <div class="folder-item folder indent-2">│   ├── graph/</div>
+                <div class="folder-item file indent-3">│   │   ├── graph.py         # LangGraph workflow definition</div>
+                <div class="folder-item file indent-3">│   │   ├── nodes.py         # Agent node implementations</div>
+                <div class="folder-item file indent-3">│   │   └── state.py         # Agent state definition</div>
+                <div class="folder-item folder indent-2">│   ├── services/</div>
+                <div class="folder-item file indent-3">│   │   └── vector_store.py  # ChromaDB & document processing</div>
+                <div class="folder-item file indent-2">│   └── chroma_db/           # Vector database storage</div>
+                <div class="folder-item folder indent-1">├── frontend/</div>
+                <div class="folder-item file indent-2">│   ├── package.json         # Node.js dependencies</div>
+                <div class="folder-item file indent-2">│   ├── vite.config.ts       # Vite configuration</div>
+                <div class="folder-item folder indent-2">│   └── src/</div>
+                <div class="folder-item file indent-3">│       ├── App.tsx          # Main application component</div>
+                <div class="folder-item folder indent-3">│       └── components/</div>
+                <div class="folder-item file indent-3">│           ├── ChatInterface.tsx    # Chat UI</div>
+                <div class="folder-item file indent-3">│           ├── DocumentUpload.tsx   # File upload UI</div>
+                <div class="folder-item file indent-3">│           └── AgentVisualizer.tsx  # Agent status display</div>
+                <div class="folder-item folder indent-1">├── architecture/</div>
+                <div class="folder-item file indent-2">│   └── architecture.html    # System architecture diagram</div>
+                <div class="folder-item folder indent-1">└── docs/</div>
+                <div class="folder-item file indent-2">    └── beginner-guide.html  # This documentation</div>
+            </div>
+        </div>
+
+        <!-- Prerequisites -->
+        <div class="section" id="prerequisites">
+            <div class="section-title">
+                <span class="icon">✅</span>
+                Prerequisites
+            </div>
+            <p>
+                Before you begin, make sure you have the following installed on your computer:
+            </p>
+            <ul class="checklist">
+                <li>
+                    <strong>Python 3.10 or higher</strong><br>
+                    <span style="color: #a0a0a0; font-size: 0.9rem;">Download from <a href="https://www.python.org/downloads/" style="color: #00d4ff;">python.org</a>. Make sure to check "Add Python to PATH" during installation.</span>
+                </li>
+                <li>
+                    <strong>Node.js 18 or higher</strong><br>
+                    <span style="color: #a0a0a0; font-size: 0.9rem;">Download from <a href="https://nodejs.org/" style="color: #00d4ff;">nodejs.org</a>. This includes npm (Node Package Manager).</span>
+                </li>
+                <li>
+                    <strong>Git</strong><br>
+                    <span style="color: #a0a0a0; font-size: 0.9rem;">Download from <a href="https://git-scm.com/" style="color: #00d4ff;">git-scm.com</a>. Used for cloning the repository.</span>
+                </li>
+                <li>
+                    <strong>Ollama</strong><br>
+                    <span style="color: #a0a0a0; font-size: 0.9rem;">Download from <a href="https://ollama.com/" style="color: #00d4ff;">ollama.com</a>. Runs AI models locally on your machine.</span>
+                </li>
+            </ul>
+            <div class="warning-box">
+                <div class="warning-box-title">⚠️ Important</div>
+                <p style="margin: 0;">
+                    Make sure Ollama is installed and running before starting the application. The system uses Ollama to run the Llama 3 AI model locally.
+                </p>
+            </div>
+        </div>
+
+        <!-- Installation Guide -->
+        <div class="section" id="installation">
+            <div class="section-title">
+                <span class="icon">📥</span>
+                Installation Guide
+            </div>
+            <p>
+                Follow these steps to install Nexus AI Agent on your computer:
+            </p>
+
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-title">Clone the Repository</div>
+                <div class="step-desc">
+                    <p>Open a terminal or command prompt and run:</p>
+                    <pre><code>git clone <repository_url>
+cd Nexus-AI-Agent</code></pre>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-title">Set Up Ollama</div>
+                <div class="step-desc">
+                    <p>First, pull the Llama 3 model:</p>
+                    <pre><code>ollama pull llama3</code></pre>
+                    <p>Then start the Ollama server:</p>
+                    <pre><code>ollama serve</code></pre>
+                    <div class="info-box">
+                        <div class="info-box-title">💡 Note</div>
+                        <p style="margin: 0;">
+                            Keep the Ollama server running in a separate terminal window. The system needs it to process AI requests.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-title">Set Up Backend</div>
+                <div class="step-desc">
+                    <p>Navigate to the backend directory and create a virtual environment:</p>
+                    <pre><code>cd backend
+
+# Create virtual environment
+python -m venv .venv
+
+# Activate virtual environment
+# On Windows:
+.venv\Scripts\activate
+
+# On Mac/Linux:
+source .venv/bin/activate</code></pre>
+                    <p>Install Python dependencies:</p>
+                    <pre><code>pip install -r requirements.txt</code></pre>
+                    <div class="info-box">
+                        <div class="info-box-title">💡 What is a virtual environment?</div>
+                        <p style="margin: 0;">
+                            A virtual environment is an isolated Python environment that keeps project dependencies separate from your system Python. This prevents conflicts between different projects.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">4</div>
+                <div class="step-title">Set Up Frontend</div>
+                <div class="step-desc">
+                    <p>Open a new terminal window and navigate to the frontend directory:</p>
+                    <pre><code>cd frontend
+
+# Install Node.js dependencies
+npm install</code></pre>
+                    <p>This will download all required JavaScript packages.</p>
+                </div>
+            </div>
+
+            <div class="success-box">
+                <div class="success-box-title">✅ Installation Complete!</div>
+                <p style="margin: 0;">
+                    You've successfully installed Nexus AI Agent. Now let's learn how to run it locally.
+                </p>
+            </div>
+        </div>
+
+        <!-- Running Locally -->
+        <div class="section" id="running-locally">
+            <div class="section-title">
+                <span class="icon">🚀</span>
+                Running Locally
+            </div>
+            <p>
+                To run Nexus AI Agent on your local machine, you need to start three services:
+            </p>
+
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-title">Start Ollama Server</div>
+                <div class="step-desc">
+                    <p>In a terminal window, run:</p>
+                    <pre><code>ollama serve</code></pre>
+                    <p>Keep this terminal open. Ollama needs to keep running to process AI requests.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-title">Start Backend Server</div>
+                <div class="step-desc">
+                    <p>In a new terminal window, navigate to the backend directory and activate the virtual environment:</p>
+                    <pre><code>cd backend
+
+# Activate virtual environment (if not already activated)
+# Windows:
+.venv\Scripts\activate
+
+# Mac/Linux:
+source .venv/bin/activate
+
+# Start the FastAPI server
+uvicorn main:app --reload</code></pre>
+                    <p>You should see output indicating the server is running on <code>http://localhost:8000</code></p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-title">Start Frontend Server</div>
+                <div class="step-desc">
+                    <p>In another new terminal window, navigate to the frontend directory:</p>
+                    <pre><code>cd frontend
+
+# Start the development server
+npm run dev</code></pre>
+                    <p>You should see output indicating the server is running on <code>http://localhost:5173</code></p>
+                </div>
+            </div>
+
+            <div class="success-box">
+                <div class="success-box-title">🎉 Application is Running!</div>
+                <p style="margin: 0;">
+                    Open your web browser and go to <code>http://localhost:5173</code> to use Nexus AI Agent!
+                </p>
+            </div>
+
+            <div class="info-box">
+                <div class="info-box-title">💡 Quick Reference</div>
+                <p style="margin: 0;">
+                    <strong>Ollama:</strong> <code>ollama serve</code><br>
+                    <strong>Backend:</strong> <code>uvicorn main:app --reload</code> (in backend directory)<br>
+                    <strong>Frontend:</strong> <code>npm run dev</code> (in frontend directory)<br>
+                    <strong>Access:</strong> <code>http://localhost:5173</code>
+                </p>
+            </div>
+        </div>
+
+        <!-- Using the Application -->
+        <div class="section" id="using-the-app">
+            <div class="section-title">
+                <span class="icon">💬</span>
+                Using the Application
+            </div>
+            
+            <h3>Uploading Documents</h3>
+            <p>
+                Before asking questions, you should upload some PDF documents for the AI to reference:
+            </p>
+            <ol style="color: #d0d0d0; margin-left: 20px;">
+                <li style="margin-bottom: 10px;">Click on the <strong>"Knowledge Base"</strong> tab in the navigation bar</li>
+                <li style="margin-bottom: 10px;">Drag and drop a PDF file onto the upload area, or click to browse</li>
+                <li style="margin-bottom: 10px;">Wait for the upload to complete (you'll see a success message)</li>
+                <li style="margin-bottom: 10px;">The document is now indexed and ready for questions!</li>
+            </ol>
+
+            <h3>Asking Questions</h3>
+            <p>
+                Once you've uploaded documents, you can start asking questions:
+            </p>
+            <ol style="color: #d0d0d0; margin-left: 20px;">
+                <li style="margin-bottom: 10px;">Click on the <strong>"Mission Control"</strong> tab</li>
+                <li style="margin-bottom: 10px;">Type your question in the input field at the bottom</li>
+                <li style="margin-bottom: 10px;">Press Enter or click the send button</li>
+                <li style="margin-bottom: 10px;">Watch as the AI agents work together to answer your question</li>
+            </ol>
+
+            <div class="info-box">
+                <div class="info-box-title">💡 Tips for Better Results</div>
+                <ul style="margin: 10px 0 0 20px; color: #d0d0d0;">
+                    <li>Be specific in your questions</li>
+                    <li>Upload multiple related documents for comprehensive answers</li>
+                    <li>The system works best with text-based PDFs (not scanned images)</li>
+                    <li>Watch the "Live Agent State" panel to see which agent is working</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Deployment Guide -->
+        <div class="section" id="deployment">
+            <div class="section-title">
+                <span class="icon">🌐</span>
+                Deployment Guide
+            </div>
+            <p>
+                Want to share your Nexus AI Agent with others? Here's how to deploy it:
+            </p>
+
+            <div class="deployment-options">
+                <div class="deployment-card">
+                    <div class="deployment-card-title">🖥️ Option 1: Local Network</div>
+                    <p style="color: #b0b0b0;">
+                        <strong>Best for:</strong> Sharing with people on the same network<br><br>
+                        <strong>Steps:</strong>
+                    </p>
+                    <ol style="color: #d0d0d0; margin-left: 20px;">
+                        <li>Find your computer's IP address</li>
+                        <li>Start backend with: <code>uvicorn main:app --host 0.0.0.0 --port 8000</code></li>
+                        <li>Start frontend with: <code>npm run dev -- --host</code></li>
+                        <li>Share <code>http://YOUR_IP:5173</code> with others</li>
+                    </ol>
+                </div>
+
+                <div class="deployment-card">
+                    <div class="deployment-card-title">☁️ Option 2: Cloud Deployment</div>
+                    <p style="color: #b0b0b0;">
+                        <strong>Best for:</strong> Public access from anywhere<br><br>
+                        <strong>Platforms:</strong>
+                    </p>
+                    <ul style="color: #d0d0d0; margin-left: 20px;">
+                        <li><strong>Railway:</strong> Easy Python deployment</li>
+                        <li><strong>Render:</strong> Free tier available</li>
+                        <li><strong>AWS/Google Cloud:</strong> Scalable infrastructure</li>
+                        <li><strong>DigitalOcean:</strong> Simple VPS hosting</li>
+                    </ul>
+                </div>
+
+                <div class="deployment-card">
+                    <div class="deployment-card-title">🐳 Option 3: Docker</div>
+                    <p style="color: #b0b0b0;">
+                        <strong>Best for:</strong> Consistent deployment across environments<br><br>
+                        <strong>Steps:</strong>
+                    </p>
+                    <ol style="color: #d0d0d0; margin-left: 20px;">
+                        <li>Create Dockerfiles for backend and frontend</li>
+                        <li>Build images: <code>docker-compose build</code></li>
+                        <li>Run: <code>docker-compose up</code></li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <div class="warning-box-title">⚠️ Deployment Considerations</div>
+                <ul style="margin: 10px 0 0 20px; color: #d0d0d0;">
+                    <li>Ollama requires significant RAM (8GB+ recommended)</li>
+                    <li>Consider using a GPU for better AI performance</li>
+                    <li>Set up proper authentication for public deployments</li>
+                    <li>Configure CORS settings for production</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Troubleshooting -->
+        <div class="section" id="troubleshooting">
+            <div class="section-title">
+                <span class="icon">🔧</span>
+                Troubleshooting
+            </div>
+            
+            <div class="faq">
+                <div class="faq-item">
+                    <div class="faq-question">❌ "Failed to fetch" error in the chat</div>
+                    <div class="faq-answer">
+                        <p>This means the frontend can't connect to the backend. Check:</p>
+                        <ul style="margin-left: 20px; margin-top: 10px;">
+                            <li>Is the backend server running? (You should see "Uvicorn running on http://localhost:8000")</li>
+                            <li>Is the backend running on port 8000?</li>
+                            <li>Are there any error messages in the backend terminal?</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">❌ Ollama connection error</div>
+                    <div class="faq-answer">
+                        <p>If you see errors about Ollama:</p>
+                        <ul style="margin-left: 20px; margin-top: 10px;">
+                            <li>Make sure Ollama is installed: <code>ollama --version</code></li>
+                            <li>Start Ollama server: <code>ollama serve</code></li>
+                            <li>Pull the Llama 3 model: <code>ollama pull llama3</code></li>
+                            <li>Check if Ollama is running on port 11434</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">❌ Python module not found errors</div>
+                    <div class="faq-answer">
+                        <p>If you see "ModuleNotFoundError":</p>
+                        <ul style="margin-left: 20px; margin-top: 10px;">
+                            <li>Make sure you activated the virtual environment</li>
+                            <li>Reinstall dependencies: <code>pip install -r requirements.txt</code></li>
+                            <li>Check Python version: <code>python --version</code> (should be 3.10+)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">❌ npm install fails</div>
+                    <div class="faq-answer">
+                        <p>If npm install fails:</p>
+                        <ul style="margin-left: 20px; margin-top: 10px;">
+                            <li>Check Node.js version: <code>node --version</code> (should be 18+)</li>
+                            <li>Clear npm cache: <code>npm cache clean --force</code></li>
+                            <li>Delete <code>node_modules</code> folder and try again</li>
+                            <li>Try using a different terminal or restart your computer</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">❌ Port already in use</div>
+                    <div class="faq-answer">
+                        <p>If you see "Address already in use":</p>
+                        <ul style="margin-left: 20px; margin-top: 10px;">
+                            <li>Another application is using that port</li>
+                            <li>Find and close the application using the port</li>
+                            <li>Or use a different port: <code>uvicorn main:app --port 8001</code></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FAQ -->
+        <div class="section" id="faq">
+            <div class="section-title">
+                <span class="icon">❓</span>
+                Frequently Asked Questions
+            </div>
+            
+            <div class="faq">
+                <div class="faq-item">
+                    <div class="faq-question">Q: Is my data sent to the cloud?</div>
+                    <div class="faq-answer">
+                        <p>No! Nexus AI Agent runs completely locally. All AI processing happens on your machine using Ollama. Your documents and conversations never leave your computer.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">Q: What types of documents can I upload?</div>
+                    <div class="faq-answer">
+                        <p>Currently, the system supports PDF documents. The PDFs should contain text (not just scanned images) for best results.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">Q: How much RAM do I need?</div>
+                    <div class="faq-answer">
+                        <p>We recommend at least 8GB of RAM. The Llama 3 model requires significant memory to run efficiently.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">Q: Can I use a different AI model?</div>
+                    <div class="faq-answer">
+                        <p>Yes! You can modify the model in <code>backend/graph/nodes.py</code>. Change <code>ChatOllama(model="llama3")</code> to any model available in Ollama.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">Q: How do I reset the vector database?</div>
+                    <div class="faq-answer">
+                        <p>Delete the <code>backend/chroma_db</code> folder. The system will create a new one when you upload documents.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">Q: Can I use OpenAI instead of Ollama?</div>
+                    <div class="faq-answer">
+                        <p>Yes! Modify <code>backend/graph/nodes.py</code> to use <code>ChatOpenAI</code> instead of <code>ChatOllama</code>. You'll need to set your OpenAI API key in a <code>.env</code> file.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div style="text-align: center; margin-top: 40px; padding: 30px; background: rgba(255, 255, 255, 0.05); border-radius: 20px;">
+            <p style="color: #a0a0a0; margin-bottom: 10px;">
+                <strong style="color: #00d4ff;">Nexus AI Agent</strong> - Multi-Agent Orchestration Platform
+            </p>
+            <p style="color: #707070; font-size: 0.9rem;">
+                Created by Arun Hari Kamble | Technical Manager | Full Stack Developer
+            </p>
+        </div>
+    </div>
+</body>
+</html>
